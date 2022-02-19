@@ -55,4 +55,4 @@ Note: Truffle will default to use a Solidity 0.5.x compiler with this contract a
  Check out the testing files to see how tests are implemented in JavaScript.
  We will go over the details of implementing tests later in the curriculum. Of
  course, if you have questions, do reach out in Discord, or schedule an Office
- Hour session with one of our mentors. Noted.
+ Hour session with one of our mentors.
