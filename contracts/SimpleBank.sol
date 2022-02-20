@@ -36,11 +36,7 @@ contract SimpleBank {
 
     // Create an event called LogWithdrawal
     // Hint: it should take 3 arguments: an accountAddress, withdrawAmount and a newBalance 
-    event LogWithdrawal(
-      address accountAddress,
-      uint withdrawAmount,
-      uint newBalance
-    );
+    event LogWithdrawal(address accountAddress, uint withdrawAmount, uint newBalance);
 
     /* Functions
      */
@@ -108,9 +104,9 @@ contract SimpleBank {
       //    sender's balance
 
       // 3. Emit the appropriate event for this message
-      require(balances[msg.sender] > withdrawAmount , "Insufficient funds!");      
-      //msg.sender.send(withdrawAmount);
+      require((balances[msg.sender] >= withdrawAmount) , "Insufficient funds!");      
       balances[msg.sender] -= withdrawAmount;
+      msg.sender.transfer(withdrawAmount);      
       emit LogWithdrawal(msg.sender, withdrawAmount, balances[msg.sender]);
       return balances[msg.sender];
     }
