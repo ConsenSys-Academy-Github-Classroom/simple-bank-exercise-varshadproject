@@ -14,7 +14,7 @@ contract SimpleBank {
     
     // Fill in the visibility keyword. 
     // Hint: We want to protect our users balance from other contracts
-    mapping (address => uint) internal balances ;
+    mapping (address => uint) private balances ;
     
     // Fill in the visibility keyword
     // Hint: We want to create a getter function and allow contracts to be able
@@ -32,7 +32,7 @@ contract SimpleBank {
     event LogEnrolled(address accountAddress);
 
     // Add 2 arguments for this event, an accountAddress and an amount
-    event LogDepositMade(address accountAddress, uint256 amount);
+    event LogDepositMade(address accountAddress, uint amount);
 
     // Create an event called LogWithdrawal
     // Hint: it should take 3 arguments: an accountAddress, withdrawAmount and a newBalance 
@@ -86,7 +86,7 @@ contract SimpleBank {
       // 4. Emit the appropriate event associated with this function
 
       // 5. return the balance of sndr of this transaction
-      require(enrolled[msg.sender], "User is not enrolled");
+      require(enrolled[msg.sender], "User is not enrolled");      
       balances[msg.sender] += msg.value;
       emit LogDepositMade(msg.sender, msg.value);
       return balances[msg.sender];
@@ -108,10 +108,10 @@ contract SimpleBank {
       //    sender's balance
 
       // 3. Emit the appropriate event for this message
-      require(balances[msg.sender] >= withdrawAmount, "Insufficient funds!");
-        balances[msg.sender] -= withdrawAmount;
-        msg.sender.transfer(withdrawAmount);
-        emit LogWithdrawal(msg.sender, withdrawAmount, balances[msg.sender]);
-        return balances[msg.sender];
+      require(balances[msg.sender] > withdrawAmount , "Insufficient funds!");      
+      //msg.sender.send(withdrawAmount);
+      balances[msg.sender] -= withdrawAmount;
+      emit LogWithdrawal(msg.sender, withdrawAmount, balances[msg.sender]);
+      return balances[msg.sender];
     }
 }
