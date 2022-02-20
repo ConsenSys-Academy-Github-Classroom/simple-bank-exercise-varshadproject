@@ -46,7 +46,7 @@ contract SimpleBank {
     // Typically, called when invalid data is sent
     // Added so ether sent to this contract is reverted if the contract fails
     // otherwise, the sender's money is transferred to contract
-    function() external payable {
+    function () external payable {
         revert();
     }
 
@@ -64,9 +64,10 @@ contract SimpleBank {
     // Emit the appropriate event
     function enroll() public returns (bool){
       // 1. enroll of the sender of this transaction
-      enrolled[msg.sender]=true;
+      enrolled[msg.sender] = true;
       emit LogEnrolled(msg.sender);
       return enrolled[msg.sender];
+
     }
 
     /// @notice Deposit ether into bank
@@ -76,16 +77,21 @@ contract SimpleBank {
     
       // 2. Users should be enrolled before they can make deposits
 
+      require(enrolled[msg.sender], "User is not enrolled!");
+
       // 3. Add the amount to the user's balance. Hint: the amount can be
       //    accessed from of the global variable `msg`
 
+      balances[msg.sender] += msg.value;
+
       // 4. Emit the appropriate event associated with this function
 
-      // 5. return the balance of sndr of this transaction
-      require(enrolled[msg.sender], "User is not enrolled");      
-      balances[msg.sender] += msg.value;
       emit LogDepositMade(msg.sender, msg.value);
+
+      // 5. return the balance of sndr of this transaction
+
       return balances[msg.sender];
+
     }
 
     /// @notice Withdraw ether from bank
@@ -100,14 +106,21 @@ contract SimpleBank {
 
       // 1. Use a require expression to guard/ensure sender has enough funds
 
+      require(balances[msg.sender] >= withdrawAmount, "Insufficient balance!");
+
       // 2. Transfer Eth to the sender and decrement the withdrawal amount from
       //    sender's balance
 
-      // 3. Emit the appropriate event for this message
-      require((balances[msg.sender] >= withdrawAmount) , "Insufficient funds!");      
+      //(bool sent, bytes memory data) = (msg.sender).call{value: withdrawAmount}("");
+      //require(sent, "Failed to send crypto.");
+
       balances[msg.sender] -= withdrawAmount;
-      msg.sender.transfer(withdrawAmount);      
+      msg.sender.transfer(withdrawAmount);
+
+      // 3. Emit the appropriate event for this message
+
       emit LogWithdrawal(msg.sender, withdrawAmount, balances[msg.sender]);
       return balances[msg.sender];
+
     }
 }
