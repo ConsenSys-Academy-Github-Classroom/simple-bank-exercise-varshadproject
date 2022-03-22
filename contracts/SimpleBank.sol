@@ -5,6 +5,7 @@
  */
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.5.16 <0.9.0;
+//pragma solidity ^0.8.4;
 
 contract SimpleBank {
 
@@ -64,7 +65,7 @@ contract SimpleBank {
     // Emit the appropriate event
     function enroll() public returns (bool){
       // 1. enroll of the sender of this transaction
-      enrolled[msg.sender] = true;
+      enrolled[msg.sender] = true;      
       emit LogEnrolled(msg.sender);
       return enrolled[msg.sender];
 
@@ -106,16 +107,16 @@ contract SimpleBank {
 
       // 1. Use a require expression to guard/ensure sender has enough funds
 
-      require(balances[msg.sender] >= withdrawAmount, "Insufficient balance!");
+      require(balances[msg.sender] >= withdrawAmount);
 
       // 2. Transfer Eth to the sender and decrement the withdrawal amount from
       //    sender's balance
 
       //(bool sent, bytes memory data) = (msg.sender).call{value: withdrawAmount}("");
-      //require(sent, "Failed to send crypto.");
+      //require(sent, "Failed to send ether.");
 
       balances[msg.sender] -= withdrawAmount;
-      msg.sender.transfer(withdrawAmount);
+      //msg.sender.transfer(withdrawAmount);
 
       // 3. Emit the appropriate event for this message
 
