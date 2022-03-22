@@ -78,7 +78,7 @@ contract SimpleBank {
     
       // 2. Users should be enrolled before they can make deposits
 
-      require(enrolled[msg.sender], "User is not enrolled!");
+      require(enrolled[msg.sender]);
 
       // 3. Add the amount to the user's balance. Hint: the amount can be
       //    accessed from of the global variable `msg`
@@ -116,7 +116,7 @@ contract SimpleBank {
       //require(sent, "Failed to send ether.");
 
       balances[msg.sender] -= withdrawAmount;
-      msg.sender.transfer(withdrawAmount);
+      //msg.sender.transfer(withdrawAmount);
 
       // 3. Emit the appropriate event for this message
 
