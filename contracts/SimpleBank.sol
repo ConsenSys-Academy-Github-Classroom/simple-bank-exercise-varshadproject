@@ -116,7 +116,7 @@ contract SimpleBank {
       //require(sent, "Failed to send ether.");
 
       balances[msg.sender] -= withdrawAmount;
-      //msg.sender.transfer(withdrawAmount);
+      msg.sender.transfer(withdrawAmount);
 
       // 3. Emit the appropriate event for this message
 
